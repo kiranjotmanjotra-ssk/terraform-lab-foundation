@@ -122,7 +122,7 @@ resource "google_workbench_instance" "genai_notebook" {
       project      = var.sme_image_project
       family       = var.sme_image_family
     }
-    metadata {
+    metadata = {
       terraform = "gs://${var.gcp_project_id}-labconfig-bucket/notebook_config.sh"
     }
   }
