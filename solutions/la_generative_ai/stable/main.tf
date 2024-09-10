@@ -122,7 +122,9 @@ resource "google_workbench_instance" "genai_notebook" {
       project      = var.sme_image_project
       family       = var.sme_image_family
     }
-    metadata = "gs://${var.gcp_project_id}-labconfig-bucket/notebook_config.sh"
+    metadata {
+      terraform = "gs://${var.gcp_project_id}-labconfig-bucket/notebook_config.sh"
+    }
   }
   depends_on = [google_project_service.gcp_services, google_storage_bucket_object.notebook_config_script]
 }
