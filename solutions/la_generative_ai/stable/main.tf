@@ -116,15 +116,14 @@ resource "google_workbench_instance" "genai_notebook" {
   name               = var.sme_notebook_name
   project            = var.gcp_project_id
   location           = var.gcp_zone
-  machine_type       = var.sme_machine_type
-  install_gpu_driver = false
-  vm_image { // https://cloud.google.com/vertex-ai/docs/workbench/user-managed/images
-    project      = var.sme_image_project
-    image_family = var.sme_image_family
+  gce_setup {
+    machine_type = var.sme_machine_type
+    vm_image {
+      project      = var.sme_image_project
+      family       = var.sme_image_family
+    }
+    metadata = "gs://${var.gcp_project_id}-labconfig-bucket/notebook_config.sh"
   }
-
-  post_startup_script = "gs://${var.gcp_project_id}-labconfig-bucket/notebook_config.sh"
-
   depends_on = [google_project_service.gcp_services, google_storage_bucket_object.notebook_config_script]
 }
 
